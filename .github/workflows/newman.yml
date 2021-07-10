@@ -1,8 +1,6 @@
-name: CI
+name: Newman
 
 on:
-  push:
-  pull_request:
   workflow_dispatch:
 
 jobs:
