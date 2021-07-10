@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - run: npm ci
+      - run: npm start &
+      - name: Run postman collections
+        uses: matt-ball/newman-action@master
+        with:
+          collection: GQLDemo.postman_collection.json
+          environment: GraphQL.postman_environment.json
