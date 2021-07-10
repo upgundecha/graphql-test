@@ -44,23 +44,13 @@ test("fetch author", async (done) => {
     });
 });
 
-test("create", async (done) => {
-  request
+test("query that does not exist", async () => {
+  const response = await request
     .post("/graphql")
     .send({
-      query:`mutation { 
-              createAuthor(name: "Foo Bar") {
-               name
-              } 
-            }`
+      query: "{ reviews { id, rating, comment} }",
     })
-    .set("Accept", "application/json")
-    .expect("Content-Type", /json/)
-    .expect(200)
-    .end(function (err, res) {
-      if (err) return done(err);
-      expect(res.body).toBeInstanceOf(Object);
-      expect(res.body.data.createAuthor.name).toEqual("Foo Bar");
-      done();
-    });
+    .set("Accept", "application/json");
+
+  expect(response.status).toBe(400);
 });
